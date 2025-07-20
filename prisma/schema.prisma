@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Dish {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  description      String
+  imageUrl         String?
+  isAvailableToday Boolean  @default(false)
+  dailyVoteCount   Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  votes        DailyVote[]
+  reservations Reservation[]
+
+  @@map("dishes")
+}
+
+model DailyVote {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String
+  dishId   String   @db.ObjectId
+  voteDate DateTime @default(now())
+
+  dish Dish @relation(fields: [dishId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, dishId, voteDate])
+  @@map("daily_votes")
+}
+
+model Reservation {
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String
+  dishId          String            @db.ObjectId
+  reservationDate DateTime
+  quantity        Int               @default(1)
+  status          ReservationStatus @default(PENDING)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  dish Dish @relation(fields: [dishId], references: [id], onDelete: Cascade)
+
+  @@map("reservations")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  name      String?
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  PICKED_UP
+  CANCELLED
+}
