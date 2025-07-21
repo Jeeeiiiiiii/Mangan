@@ -1,4 +1,4 @@
-// File: C:\Users\ADMIN\Desktop\Mangan\app\auth\signup\page.tsx
+// File: C:\Users\ADMIN\Desktop\ManganSys\app\auth\signup\page.tsx
 import * as entry from '../../../../../app/auth/signup/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

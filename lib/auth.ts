@@ -1,13 +1,10 @@
 import { betterAuth } from "better-auth"
-import { prismaAdapter } from "better-auth/adapters/prisma"
-import { PrismaClient } from "@prisma/client"
-
-const prisma = new PrismaClient()
+// TODO: Implement or import a DynamoDB adapter for better-auth
+// import { dynamoDbAdapter } from "better-auth/adapters/dynamodb" (if available)
 
 export const auth = betterAuth({
-  database: prismaAdapter(prisma, {
-    provider: "mongodb"
-  }),
+  // database: dynamoDbAdapter(dynamoDbClient, { ... }) // Example usage
+  // TODO: Implement the DynamoDB adapter for better-auth
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false, // Set to true in production
